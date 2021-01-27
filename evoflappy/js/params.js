@@ -16,7 +16,7 @@ var Params = {
         TEXT_DISPLAY_X: 200,
         TEXT_DISPLAY_OFFSET: 40,
 
-        LABEL_DISPLAY_Y: 380,
+        LABEL_DISPLAY_Y: 490,
         LABEL_DISPLAY_X: 550,
         LABEL_DISPLAY_OFFSET: 30
     },

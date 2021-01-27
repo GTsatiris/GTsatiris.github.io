@@ -62,7 +62,7 @@ FrameUpdater.prototype = {
 
         // visualize brain if its AI
         if(Params.game_manager.PLAY_MODE >= 1 && !game_manager.gameover){
-            this._drawBrainVisual();
+            //this._drawBrainVisual();
 
             // display generation number
             var display_label = 'Generation: ' + game_manager.generation.gen_num.toString();
