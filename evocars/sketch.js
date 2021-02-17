@@ -6,9 +6,9 @@
 // https://editor.p5js.org/codingtrain/sketches/Nqsq3DFv-
 
 const TOTAL = 100;
-const MUTATION_RATE = 0.1;
-const LIFESPAN = 25;
-const SIGHT = 50;
+let MUTATION_RATE = 0.1;
+let LIFESPAN = 25;
+let SIGHT = 50;
 
 let generationCount = 0;
 
@@ -20,11 +20,23 @@ let savedParticles = [];
 
 let start, end;
 
+let myCanvas;
 let speedSlider;
+let reloadTrack;
+let resetSystem;
+let forceNext;
+let resetAll;
+
+// let inputTOTAL;
+let inputMUTATION_RATE;
+let inputLIFESPAN;
+let inputSIGHT;
 
 let inside = [];
 let outside = [];
 let checkpoints = [];
+
+let myNotification;
 
 // around 5-6 successfully completed rounds will make the fitness of 500+
 // so maxFitness is set to 500
@@ -34,6 +46,12 @@ let checkpoints = [];
 // and generalize to variety of maps
 const maxFitness = 500;
 let changeMap = false;
+
+function isNumeric(str) {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
 
 function buildTrack() {
   checkpoints = [];
@@ -74,7 +92,13 @@ function buildTrack() {
 }
 
 function setup() {
-  createCanvas(1200, 800);
+  var canvasDiv = document.getElementById('main-frame');
+  var width = canvasDiv.offsetWidth;
+  var height = 0.76 * width;
+
+  // myCanvas = createCanvas(720, 548);
+  myCanvas = createCanvas(width, height);
+  myCanvas.parent("main-frame");
 
   tf.setBackend('cpu');
   buildTrack();
@@ -87,6 +111,128 @@ function setup() {
   }
 
   speedSlider = createSlider(1, 10, 1);
+  speedSlider.parent("speed");
+
+  reloadTrack = createButton('Load New Track');
+  reloadTrack.mousePressed(buildTrack);
+  reloadTrack.parent("reload");
+
+  // inputTOTAL = createInput();
+  // inputTOTAL.parent("total");
+
+  inputMUTATION_RATE = createInput();
+  inputMUTATION_RATE.parent("mut-rate");
+
+  inputLIFESPAN = createInput();
+  inputLIFESPAN.parent("lifespan");
+
+  inputSIGHT = createInput();
+  inputSIGHT.parent("sight");
+
+  forceNext = createButton('Update Values');
+  forceNext.mousePressed(forceNextGen);
+  forceNext.parent("forcenext");
+  
+  forceNext = createButton('Reset Vehicles');
+  forceNext.mousePressed(reSetUp);
+  forceNext.parent("reset");
+
+  myNotification = window.createNotification({ 
+
+    // close on click
+    closeOnClick: true,
+  
+    // displays close button
+    displayCloseButton: false,
+  
+    // nfc-top-left
+    // nfc-bottom-right
+    // nfc-bottom-left
+    positionClass: 'nfc-top-right',
+  
+    // callback
+    onclick: false,
+  
+    // timeout in milliseconds
+    showDuration: 5000,
+  
+    // success, info, warning, error, and none
+    theme: 'success'
+    
+  });
+
+}
+
+function windowResized() {
+  var canvasDiv = document.getElementById('main-frame');
+  var width = canvasDiv.offsetWidth;
+  var height = 0.76 * width;
+  resizeCanvas(width, height);
+  buildTrack();
+  // reSetUp();
+}
+
+function reSetUp() {
+  population = [];
+  savedParticles = [];
+
+  for (let i = 0; i < TOTAL; i++) {
+    population[i] = new Particle();
+  }
+
+  generationCount = 0;
+}
+
+function forceNextGen() {
+  // if(inputTOTAL){
+  //   if(isNumeric(inputTOTAL.value()))
+  //   {
+  //     TOTAL = parseFloat(inputTOTAL.value());
+  //     myNotification({ 
+  //       title: 'Updated number of cars!',
+  //       message: 'New value: ' + TOTAL
+  //     });
+  //     inputTOTAL.value('');
+  //   }
+  // }
+
+  if(inputLIFESPAN){
+    if(isNumeric(inputLIFESPAN.value()))
+    {
+      LIFESPAN = parseFloat(inputLIFESPAN.value());
+      myNotification({ 
+        title: 'Updated lifespan!',
+        message: 'New value: ' + LIFESPAN
+      });
+      inputLIFESPAN.value('');
+    }
+  }
+
+  if(inputMUTATION_RATE){
+    if(isNumeric(inputMUTATION_RATE.value()))
+    {
+      MUTATION_RATE = parseFloat(inputMUTATION_RATE.value());
+      myNotification({ 
+        title: 'Updated mutation rate!',
+        message: 'New value: ' + MUTATION_RATE
+      });
+      inputMUTATION_RATE.value('');
+    }
+  }
+
+  if(inputSIGHT){
+    if(isNumeric(inputSIGHT.value()))
+    {
+      SIGHT = parseFloat(inputSIGHT.value());
+      myNotification({ 
+        title: 'Updated sight range!',
+        message: 'New value: ' + SIGHT
+      });
+      inputSIGHT.value('');
+    }
+  }
+  
+  changeMap = true;
 }
 
 function draw() {
@@ -131,7 +277,7 @@ function draw() {
     }
 
     if (population.length == 0) {
-      buildTrack();
+      // buildTrack();
       nextGeneration();
       generationCount++;
     }
@@ -153,7 +299,7 @@ function draw() {
   fill(255);
   textSize(24);
   noStroke();
-  text('generation ' + generationCount, 10, 50);
+  text('Generation ' + generationCount, 10, 50);
 
   // ellipse(start.x, start.y, 10);
   // ellipse(end.x, end.y, 10);
