@@ -18,6 +18,8 @@ let levelPointsY = [
   [159, 37, 3, 185],
   [206, 169, 30, 83]
 ];
+let levelChecks = [false, false, false, false];
+let frameKeypoints = [{x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}];
 
 function translateX(old_x) {
   return (old_x * windowWidth)/video.width;
@@ -112,6 +114,8 @@ function windowResized() {
 } 
 
 function draw() {
+  translate(width,0);
+  scale(-1, 1);
   image(video, 0, 0, width, height);
 
   // We can call both functions to draw all keypoints and the skeletons
@@ -137,6 +141,34 @@ function drawKeypoints() {
       const keypoint = pose.keypoints[j];
       // Only draw an ellipse is the pose probability is bigger than 0.2
       if (keypoint.score > 0.2) {
+        // for (let i = 0; i < 4; i++) {
+        //   if(distance(translateX(keypoint.position.x), translateY(keypoint.position.y), translateX(levelPointsX[level][i]), translateY(levelPointsY[level][i])) < 50) {
+        //     levelChecks[i] = true;
+        //   }
+        //   else {
+        //     levelChecks[i] = false;
+        //   }
+        // }
+        if(j = 9)
+        {
+          frameKeypoints[0].x = keypoint.position.x;
+          frameKeypoints[0].y = keypoint.position.y;
+        }
+        if(j = 10)
+        {
+          frameKeypoints[1].x = keypoint.position.x;
+          frameKeypoints[1].y = keypoint.position.y;
+        }
+        if(j = 15)
+        {
+          frameKeypoints[2].x = keypoint.position.x;
+          frameKeypoints[2].y = keypoint.position.y;
+        }
+        if(j = 16)
+        {
+          frameKeypoints[3].x = keypoint.position.x;
+          frameKeypoints[3].y = keypoint.position.y;
+        }
         fill(255, 0, 0);
         noStroke();
         ellipse(translateX(keypoint.position.x), translateY(keypoint.position.y), 50, 50);
@@ -145,9 +177,20 @@ function drawKeypoints() {
   }
 }
 
+function distance(a_x, a_y, b_x, b_y) {
+  var dx = a_x - b_x;
+	var dy = a_y - b_y;
+	return Math.sqrt(dx*dx + dy*dy);
+}
+
 function drawLevelPoints() {
   for (let i = 0; i < 4; i++) {
-    fill(0, 255, 0);
+    if(levelChecks[i]) {
+      fill(0, 255, 0);
+    }
+    else {
+      fill(255, 255, 0);
+    }
     noStroke();
     ellipse(translateX(levelPointsX[level][i]), translateY(levelPointsY[level][i]), 70, 70);
   }
