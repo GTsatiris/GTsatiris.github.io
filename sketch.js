@@ -178,7 +178,7 @@ function draw() {
   
   textFont(fontFuzzyBubblesBOLD);
   textSize(windowHeight/12);
-  strokeWeight(10);
+  strokeWeight(windowHeight/120);
   stroke(51);
   fill(255, 255, 255);
   text('Level ' + (level + 1), 10, 80);
