@@ -3,6 +3,9 @@ let poseNet;
 let poses = [];
 let currentPose;
 let canvas;
+let fontFuzzyBubbles;
+let fontFuzzyBubblesBOLD;
+
 let switchFlag = false;
 let keypointIndexes = [9, 10, 15, 16];
 let level = 0;
@@ -12,8 +15,6 @@ let hasPose = false;
 let tolerance = 50;
 let windowSize = 10;
 let levelChecks = [false, false, false];
-let frameWindow = [];
-let frameKeypoints = [{x:0, y:0}, {x:0, y:0}, {x:0, y:0}, {x:0, y:0}];
 
 let rWrist;
 let lWrist;
@@ -75,6 +76,11 @@ function switchCamera()
   video = createCapture(options);
 }
 
+function preload() {
+  fontFuzzyBubbles = loadFont('assets/fonts/FuzzyBubbles-Regular.ttf');
+  fontFuzzyBubblesBOLD = loadFont('assets/fonts/FuzzyBubbles-Bold.ttf');
+}
+
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   centerCanvas();
@@ -93,8 +99,6 @@ function setup() {
   // };
   // video = createCapture(constraints);
   video.size(320, 240);
-  //console.log(video.width);
-  //console.log(video.height);
 
   // Create a new poseNet method with a single detection
   poseNet = ml5.poseNet(video, modelReady);
@@ -116,13 +120,6 @@ function setup() {
     {
       hasPose = false;
     }
-    // updateKeypoints();
-    // frameWindow.push(frameKeypoints);
-    // if(frameWindow.length > windowSize)
-    // {
-    //   frameWindow.shift();
-    // }
-    //console.log(poses);
   });
   // Hide the video element, and just show the canvas
   video.hide();
@@ -143,7 +140,9 @@ function windowResized() {
   centerCanvas();
 } 
 
-function draw() {  
+function draw() {
+  push();  
+  background(50);
 
   translate(width,0);
   scale(-1, 1);
@@ -151,31 +150,14 @@ function draw() {
 
   // We can call both functions to draw all keypoints and the skeletons
   if(modelIsReady && hasPose)
-  {
+  {    
     updateKeypoints();
 
     smoothAndTranslate();
 
     drawLevelPoints();
-    
-    //updateKeypoints();
-    
-    // console.log("PUSHING!!");
-    // console.log(frameKeypoints);
-    // frameWindow.push(frameKeypoints);
-    // if(frameWindow.length > windowSize)
-    // {
-    //   console.log("POPPING!!");
-    //   console.log(frameWindow.pop());
-      
-    // }
 
     drawKeypoints();
-
-    
-
-    //WORKING CODE ***************************************************
-    // drawKeypoints();
 
     for (let i = 0; i < 3; i++) {
       checkPointI(i);
@@ -192,7 +174,15 @@ function draw() {
       }
     }
   }
-  //drawSkeleton();
+  pop();
+  
+  textFont(fontFuzzyBubblesBOLD);
+  textSize(windowHeight/12);
+  strokeWeight(10);
+  stroke(51);
+  fill(255, 255, 255);
+  text('Level ' + (level + 1), 10, 80);
+  
 }
 
 function updateKeypoints() {
@@ -214,61 +204,6 @@ function smoothAndTranslate() {
   lAnkle = avgLANKLE(lAnkle);
 }
 
-// A function to draw ellipses over the detected keypoints
-function updateKeypoints_OLD() {
-  pCounter++;
-  // Loop through all the poses detected
-  for (let i = 0; i < poses.length; i += 1) {
-    // For each pose detected, loop through all the keypoints
-    const pose = poses[i].pose;
-    for (let j = 0; j < pose.keypoints.length; j += 1) {
-
-      if(!keypointIndexes.includes(j)) {
-        continue;
-      }
-
-      // A keypoint is an object describing a body part (like rightArm or leftShoulder)
-      const keypoint = pose.keypoints[j];
-      // Only draw an ellipse is the pose probability is bigger than 0.2
-      if (keypoint.score > 0.5) {
-        //console.log(keypoint.score);
-        // for (let i = 0; i < 4; i++) {
-        //   if(distance(translateX(keypoint.position.x), translateY(keypoint.position.y), translateX(levelPointsX[level][i]), translateY(levelPointsY[level][i])) < 50) {
-        //     levelChecks[i] = true;
-        //   }
-        //   else {
-        //     levelChecks[i] = false;
-        //   }
-        // // }
-        if(j == 9)
-        {
-          frameKeypoints[0].x = keypoint.position.x;
-          frameKeypoints[0].y = keypoint.position.y;
-        }
-        if(j == 10)
-        {
-          frameKeypoints[1].x = keypoint.position.x;
-          frameKeypoints[1].y = keypoint.position.y;
-        }
-        if(j == 15)
-        {
-          frameKeypoints[2].x = keypoint.position.x;
-          frameKeypoints[2].y = keypoint.position.y;
-        }
-        if(j == 16)
-        {
-          frameKeypoints[3].x = keypoint.position.x;
-          frameKeypoints[3].y = keypoint.position.y;
-        }
-        // fill(255, 0, 0);
-        // noStroke();
-        // var new_p = translateToNewDim(keypoint.position);
-        // ellipse(new_p.x, new_p.y, 50, 50);
-      }
-    }
-  }
-}
-
 function drawKeypoints() {
   fill(255, 0, 0);
   noStroke();
@@ -285,84 +220,6 @@ function drawKeypoints() {
   fill(255, 0, 0);
   noStroke();
   ellipse(lAnkle.x, lAnkle.y, 50, 50);
-}
-
-function drawKeypoints_OLD() {
-  for (let i = 0; i < 4; i++) {
-    fill(255, 0, 0);
-    noStroke();
-    //var new_p = translateToNewDim(getSmoothedJoint(i));
-    var cleaned =getSmoothedJointAVG(i);
-    var new_p = translateToNewDim(cleaned);
-    //var new_p = translateToNewDim(frameKeypoints[i]);
-    ellipse(new_p.x, new_p.y, 50, 50);
-  }
-}
-
-function getSmoothedJointAVG(idx) {
-  var p = {x:0, y:0};
-  var sum_x = 0;
-  var sum_y = 0;
-  for (let i = 0; i < frameWindow.length; i++) {
-    sum_x = sum_x + frameWindow[i][idx].x;
-    sum_y = sum_y + frameWindow[i][idx].y;
-  }
-  p.x = sum_x / frameWindow.length;
-  p.y = sum_y / frameWindow.length;
-  return p;
-}
-
-function getSmoothedJoint(idx) {
-  console.log("START SMOOTHER");
-  var p = {x:0, y:0};
-  var sum_x = 0;
-  var sum_y = 0;
-  var exis = [];
-  var whys = [];
-  for (let i = 0; i < frameWindow.length; i++) {
-    exis.push(frameWindow[i][idx].x);
-    whys.push(frameWindow[i][idx].y);
-  }
-  console.log("EXIS: ");
-  console.log(exis);
-  console.log("WHYS: ");
-  console.log(whys);
-  exis.sort(function(a, b){return a - b});
-  whys.sort(function(a, b){return a - b});
-  exis.pop();
-  exis.shift();
-  exis.pop();
-  exis.shift();
-  exis.pop();
-  exis.shift();
-  exis.pop();
-  exis.shift();
-  exis.pop();
-  exis.shift();
-  whys.pop();
-  whys.shift();
-  whys.pop();
-  whys.shift();
-  whys.pop();
-  whys.shift();
-  whys.pop();
-  whys.shift();
-  whys.pop();
-  whys.shift();
-  console.log("NEW EXIS: ");
-  console.log(exis);
-  console.log("NEW WHYS: ");
-  console.log(whys);
-  for (let i = 0; i < exis.length; i++) {
-    sum_x = sum_x + exis[i];
-  }
-  for (let i = 0; i < whys.length; i++) {
-    sum_y = sum_y + whys[i];
-  }
-  p.x = sum_x / exis.length;
-  p.y = sum_y / whys.length;
-  console.log("END SMOOTHER");
-  return p;
 }
 
 function avgRWRIST(x) {
@@ -535,18 +392,3 @@ function checkPointI(idx) {
   var trans_p = translateToNewDim(levelPoints[level][idx]);
   levelChecks[idx] = ((distance(trans_p, rWrist) < tolerance) || (distance(trans_p, lWrist) < tolerance) || (distance(trans_p, rAnkle) < tolerance) || (distance(trans_p, lAnkle) < tolerance));
 }
-
-// A function to draw the skeletons
-// function drawSkeleton() {
-//   // Loop through all the skeletons detected
-//   for (let i = 0; i < poses.length; i += 1) {
-//     const skeleton = poses[i].skeleton;
-//     // For every skeleton, loop through all body connections
-//     for (let j = 0; j < skeleton.length; j += 1) {
-//       const partA = skeleton[j][0];
-//       const partB = skeleton[j][1];
-//       stroke(255, 0, 0);
-//       line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
-//     }
-//   }
-// }
