@@ -110,8 +110,8 @@
         .h1 {
             text-shadow:-2px 0 0 #faffff,0 2px 0 #faffff, 0.5px 0 0 #faffff,0 -0.5px 0 #faffff;
             /* text-shadow:-1px 0 0 rgb(255, 255, 255), 0 1px 0 rgb(255, 255, 255); */
-            font-size: 20px;
-            color:#f1f9fa;
+            font-size: xx-large;
+            color:#34A4AD;
         }
     </style>
     <script>
@@ -148,9 +148,9 @@
         <a href="#fourthWindow">4</a>
         <a href="#fifthWindow">5</a><br> -->
 
-        <!-- <div class="container window"> -->
+        <div class="container window">
 
-            <div id="firstWindow" class="window">
+            <!-- <div id="firstWindow" class="window"> -->
 
                 <div class="row row-grid align-items-center">
                     <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
@@ -159,29 +159,14 @@
                         </div> -->
                         <div class="pt-4 pb-5">
                             <input type='button' value='START PLAY' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("maingame.html")'><br>
-                            <input type='button' value='SELECT LEVEL' class="button" onclick='pageRedirect("#secondWindow")'>
+                            <input type='button' value='SELECT LEVEL' class="button" onclick='pageRedirect("#")'>
                         </div>
                     </div>
                 </div>  
-            </div>
+                  
+            <!-- </div> -->
             
-            <div id="secondWindow" class="window">
-
-                <div class="row row-grid align-items-center">
-                    <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
-                        <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3">Select level</h1>
-                        <div class="pt-4 pb-5">
-                            <input type='button' value='Level 1' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("#thirdWindow")'><br>
-                            <input type='button' value='Level 2' class="button" onclick='pageRedirect("#thirdWindow")'><br>
-                            <input type='button' value='Level 3' class="button" onclick='pageRedirect("#thirdWindow")'><br>
-                            <button class="button2" onclick='pageRedirect("#firstWindow")'>
-                                Return to<br>title screen.
-                            </button>
-                        </div>
-                    </div>   
-                </div>
-            </div>
-		<!-- </div> -->
+		</div>
     <!-- Core JS  -->
     <script src="assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

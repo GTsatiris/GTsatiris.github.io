@@ -82,6 +82,9 @@ function preload() {
 }
 
 function setup() {
+  let params = new URLSearchParams(location.search);
+  level = parseInt(params.get('lvl'));
+
   canvas = createCanvas(windowWidth, windowHeight);
   centerCanvas();
   // canvas.center('horizontal');
