@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+
+    <meta name="description" content="">
+    <meta name="author" content="Webpixels">
+    <title>Human pose game</title>
+   
+    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/quick-website.css" id="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+        @keyframes hidePreloader {
+            0% {
+                width: 100%;
+                height: 100%;
+            }
+
+            100% {
+                width: 0;
+                height: 0;
+            }
+        }
+        
+        body {
+            background-image: url("./assets/img/background.jpg");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color: #cccccc;
+        }
+
+        body>div.preloader {
+            position: fixed;
+            background: white;
+            width: 100%;
+            height: 100%;
+            z-index: 1071;
+            opacity: 0;
+            transition: opacity .5s ease;
+            overflow: hidden;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
+
+        body *{
+            font-family: 'FuzzyBubbles', cursive;
+            font-weight: bold;
+        }
+
+        body:not(.loaded)>div.preloader {
+            opacity: 1;
+        }
+
+        body:not(.loaded) {
+            overflow: hidden;
+        }
+
+        body.loaded>div.preloader {
+            animation: hidePreloader .5s linear .5s forwards;
+        }
+
+		.button {
+		  padding: 10px 23px;
+		  font-size: 40px;
+		  text-align: center;
+		  cursor: pointer;
+		  outline: none;
+		  color: #fff;
+		  background-color: #47c54b;
+		  border: none;
+		  border-radius: 20px;
+          box-shadow: 0 9px #999;
+          margin: 20px;
+          width: 60%;
+		}
+
+		.button:hover {background-color: #377e39}
+
+		.button:active {
+		  background-color: #377e39;
+		  box-shadow: 0 5px #666;
+		  transform: translateY(4px);
+		}
+
+        [id$="Window"] {
+            display:none;
+        }
+
+        [id$="Window"]:target {
+            display:block;
+        }
+
+        .window {
+            /* overflow:hidden; */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .h1 {
+            text-shadow:-2px 0 0 #faffff,0 2px 0 #faffff, 0.5px 0 0 #faffff,0 -0.5px 0 #faffff;
+            /* text-shadow:-1px 0 0 rgb(255, 255, 255), 0 1px 0 rgb(255, 255, 255); */
+            font-size: 20px;
+            color:#f1f9fa;
+        }
+    </style>
+    <script>
+        // window.addEventListener("load", function() {
+        //     setTimeout(function() {
+        //         document.querySelector('body').classList.add('loaded');
+        //     }, 300);
+        // });
+
+        // window.addEventListener("touchend", function() {
+        //     if (window.location.href.includes("zeroWindow"))
+        //     {
+        //         window.location = "#firstWindow";
+        //     }
+        // });
+
+        function pageRedirect(pathToURL){
+            var delay = 500; // time in milliseconds
+
+            setTimeout(function(){
+                window.location = pathToURL;
+            },delay);
+        }
+    </script>
+    
+</head>
+
+<body>
+    
+    <!-- Main content -->
+        <!-- <a href="#firstWindow">1</a>
+        <a href="#secondWindow">2</a>
+        <a href="#thirdWindow">3</a>
+        <a href="#fourthWindow">4</a>
+        <a href="#fifthWindow">5</a><br> -->
+
+        <!-- <div class="container window"> -->
+
+            <div id="firstWindow" class="window">
+
+                <div class="row row-grid align-items-center">
+                    <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
+                        <!-- <div class="animate__animated animate__jackInTheBox animate__delay-1s pt-4 pb-5">
+                            <img src="assets/img/intropic.png" class="img-fluid img-center" alt="image" />
+                        </div> -->
+                        <div class="pt-4 pb-5">
+                            <input type='button' value='START PLAY' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("maingame.html")'><br>
+                            <input type='button' value='SELECT LEVEL' class="button" onclick='pageRedirect("#secondWindow")'>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            
+            <div id="secondWindow" class="window">
+
+                <div class="row row-grid align-items-center">
+                    <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
+                        <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3">Select level</h1>
+                        <div class="pt-4 pb-5">
+                            <input type='button' value='Level 1' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("#thirdWindow")'><br>
+                            <input type='button' value='Level 2' class="button" onclick='pageRedirect("#thirdWindow")'><br>
+                            <input type='button' value='Level 3' class="button" onclick='pageRedirect("#thirdWindow")'><br>
+                            <button class="button2" onclick='pageRedirect("#firstWindow")'>
+                                Return to<br>title screen.
+                            </button>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+		<!-- </div> -->
+    <!-- Core JS  -->
+    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/svg-injector/dist/svg-injector.min.js"></script>
+    <script src="assets/libs/feather-icons/dist/feather.min.js"></script>
+    <!-- Quick JS -->
+    <script src="assets/js/quick-website.js"></script>
+    <!-- Feather Icons -->
+    <script>
+        feather.replace({
+            'width': '1em',
+            'height': '1em'
+        })
+    </script>
+    
+</body>
+
+</html>
