@@ -6,6 +6,9 @@ let canvas;
 let fontFuzzyBubbles;
 let fontFuzzyBubblesBOLD;
 
+let startTimer;
+let resetTime;
+
 let switchFlag = false;
 let keypointIndexes = [9, 10, 15, 16];
 let level = 0;
@@ -13,7 +16,7 @@ let modelIsReady = false;
 let hasPose = false;
 
 let tolerance = 50;
-let windowSize = 10;
+let windowSize = 15;
 let levelChecks = [false, false, false];
 
 let rWrist;
@@ -82,6 +85,7 @@ function preload() {
 }
 
 function setup() {
+  resetTime = true;
   let params = new URLSearchParams(location.search);
   level = parseInt(params.get('lvl'));
 
@@ -153,7 +157,13 @@ function draw() {
 
   // We can call both functions to draw all keypoints and the skeletons
   if(modelIsReady && hasPose)
-  {    
+  {
+    if(resetTime)
+    {
+      resetTime = false;
+      startTimer = millis();
+    }
+          
     updateKeypoints();
 
     smoothAndTranslate();
@@ -170,6 +180,7 @@ function draw() {
     {
       if(level < 2){
         level++;
+        resetTime = true;
       }
       else
       {
@@ -185,6 +196,14 @@ function draw() {
   stroke(51);
   fill(255, 255, 255);
   text('Level ' + (level + 1), 10, 80);
+
+  // milliSec = millisToMinAndSec(millis() - startTimer);
+  milliSec = msToTime(millis() - startTimer);
+  
+  if(startTimer != null)
+  {
+    text(milliSec, windowWidth*0.75, 80);
+  }
   
 }
 
@@ -394,4 +413,23 @@ function drawLevelPoints() {
 function checkPointI(idx) {
   var trans_p = translateToNewDim(levelPoints[level][idx]);
   levelChecks[idx] = ((distance(trans_p, rWrist) < tolerance) || (distance(trans_p, lWrist) < tolerance) || (distance(trans_p, rAnkle) < tolerance) || (distance(trans_p, lAnkle) < tolerance));
+}
+
+function millisToMinAndSec(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
+function msToTime(s) {
+  var ms = s % 1000;
+  s = (s - ms) / 1000;
+  var secs = s % 60;
+  s = (s - secs) / 60;
+  var mins = s % 60;
+  
+  // var hrs = (s - mins) / 60;
+  // return hrs + ':' + mins + ':' + secs + '.' + Math.floor(ms/10);
+
+  return mins + ':' + ('0'+secs).slice(-2) + ':' + ('0'+Math.floor(ms/10)).slice(-2);
 }
