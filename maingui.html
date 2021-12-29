@@ -46,9 +46,9 @@
             overflow: hidden;
             pointer-events: none;
             display: flex;
-            align-items: center;
+            align-items: center; 
             justify-content: center;
-            
+
         }
 
         body *{
@@ -80,6 +80,7 @@
 		  border-radius: 20px;
           box-shadow: 0 9px #999;
           margin: 20px;
+          display: block;
 		}
 
         .button2 {
@@ -87,13 +88,15 @@
 		  font-size: 40px;
 		  text-align: center;
 		  cursor: pointer;
-		  outline: none;
+		  outline:none;
 		  color: #fff;
 		  background-color: #37703a;
 		  border: none;
 		  border-radius: 15px;
           box-shadow: 0 9px #999;
           margin: 20px;
+          display: block;
+          position: relative;
 		}
 
 		.button:hover, .button2:hover {background-color: #088d0c}
@@ -126,6 +129,13 @@
             font-size: 60px;
             color:#359b39;
         }
+
+        .guidelines {
+            background-color: #e67b24b9;
+            border-radius: 20px;
+            padding: 15px 25px;
+        }
+
     </style>
     <script>
         // window.addEventListener("load", function() {
@@ -174,30 +184,48 @@
             <div id="firstWindow" class="window">
 
                 <div class="row row-grid align-items-center">
-                    <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
+                    <!-- <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center"> -->
                         <div class="animate__animated animate__jackInTheBox animate__delay-1s pt-4 pb-5">
                         </div>
                         <div class="pt-4 pb-5">
-                            <input type='button' value='START PLAY' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("maingame.html?lvl=0")'><br>
-                            <input type='button' value='SELECT LEVEL' class="button" onclick='pageRedirect("#secondWindow")'>
+                            <input type='button' value='ΠΑΙΞΕ' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("maingame.html?lvl=0")'><br>
+                            <input type='button' value='ΔΙΑΛΕΞΕ ΕΠΙΠΕΔΟ' class="button" onclick='pageRedirect("#secondWindow")'>
+                            <input type='button' value='ΠΩΣ ΝΑ ΠΑΙΞΕΙΣ' class="button" onclick='pageRedirect("#thirdWindow")'>
                         </div>
-                    </div>
+                    <!-- </div> -->
                 </div>    
             </div>
 
             <div id="secondWindow" class="window">
                 
                 <div class="row row-grid align-items-center">
-                    <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
-                        <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3">Choose level</h1>
+                    <!-- <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center"> -->
+                        <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3">Διάλεξε επίπεδο</h1>
                         <div class="pt-4 pb-5">
-                            <input type='button' value='Level 1' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("maingame.html?lvl=0")'><br>
-                            <input type='button' value='Level 2' class="button" onclick='pageRedirect("maingame.html?lvl=1")'><br>
-                            <input type='button' value='Level 3' class="button" onclick='pageRedirect("maingame.html?lvl=2")'><br>
+                            <input type='button' value='Επίπεδο 1' class="animate__animated animate__pulse animate__infinite button" onclick='pageRedirect("maingame.html?lvl=0")'><br>
+                            <input type='button' value='Επίπεδο 2' class="button" onclick='pageRedirect("maingame.html?lvl=1")'><br>
+                            <input type='button' value='Επίπεδο 3' class="button" onclick='pageRedirect("maingame.html?lvl=2")'><br>
                             <button class="button2" onclick='pageRedirect("#firstWindow")'>
-                                Return
+                                Πίσω
                             </button>
                         </div>
+                    <!-- </div>    -->
+                </div>
+
+            </div>
+
+            <div id="thirdWindow" class="window">
+                
+                <div class="row row-grid align-items-center">
+                    <!-- <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center"> -->
+                        <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3 ">Πώς να παίξεις</h1>
+                        <div class="guidelines">
+                            <h2>1. Διαλέγεις επίπεδο</h2>
+                            <h2>2. Ανάλογα με το κάθε επίπεδο πρέπει να τοποθετήσεις για συγκεκριμένα δευτερόλεπτα, τα χέρια ή/και τα πόδια σου στα αντίστοιχα σημεία που εμφανίζονται στην οθόνη</h2>
+                        </div>
+                        <button class="button2" onclick='pageRedirect("#firstWindow")'>
+                            Πίσω
+                        </button>
                     </div>   
                 </div>
 
