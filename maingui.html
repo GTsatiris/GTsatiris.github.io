@@ -9,9 +9,12 @@
     <meta name="author" content="Webpixels">
     <title>Human pose game</title>
    
-    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="assets/css/quick-website.css" id="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital@1&display=swap" rel="stylesheet">
 
     <style>
         @keyframes hidePreloader {
@@ -52,8 +55,9 @@
         }
 
         body *{
-            font-family: 'FuzzyBubbles', cursive;
-            font-weight: bold;
+            font-family: 'Ubuntu Mono', monospace;
+            /* font-family: 'FuzzyBubbles', cursive; */
+            /* font-weight: bold; */
         }
 
         body:not(.loaded)>div.preloader {
@@ -126,7 +130,7 @@
         .h1 {
             text-shadow:-2px 0 0 #faffff,0 2px 0 #faffff, 0.5px 0 0 #faffff,0 -0.5px 0 #faffff;
             /* text-shadow:-1px 0 0 rgb(255, 255, 255), 0 1px 0 rgb(255, 255, 255); */
-            font-size: 60px;
+            font-size: 45px;
             color:#359b39;
         }
 
@@ -136,6 +140,12 @@
             padding: 15px 25px;
         }
 
+        .guidelines2 {
+            width: 450px;
+            height: 200px;
+            overflow: auto;
+        }
+                               
     </style>
     <script>
         // window.addEventListener("load", function() {
@@ -226,12 +236,60 @@
                         <button class="button2" onclick='pageRedirect("#firstWindow")'>
                             Πίσω
                         </button>
-                    </div>   
+                        <button class="button2" onclick='pageRedirect("#fourthWindow")'>
+                            Επόμενο
+                        </button>
+                </div>   
+            </div>
+
+            <div id="fourthWindow" class="window">
+
+                <div class="row row-grid align-items-center">
+                    <!-- <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center"> -->
+                        <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3 ">Η οθόνη του παιχνιδιού</h1>
+                        <div class="guidelines">
+                            <img src="" alt="" width="450" height="200">
+                            <div class="guidelines2">
+                                <h2>Το κουμπί Χ σε πάει στο αρχικό μενού</h2>
+                                <h2>Το κουμπί Χ παγώνει το παιχνίδι</h2>
+                                <h2>Το κουμπί Χ εμφανίζει πληροφορίες για το επίπεδο</h2>
+                                <h2>Για να αλληλεπιδράσεις με ένα κουμπί θα πρέπει να βάλεις πάνω του ένα μέλος σου, π.χ. το χέρι, για Χ δευτερόλεπτα</h2>
+                            </div>
+                        </div>
+                        <button class="button2" onclick='pageRedirect("#thirdWindow")'>
+                            Πίσω
+                        </button>
+                        <button class="button2" onclick='pageRedirect("#fifthWindow")'>
+                            Επόμενο
+                        </button>
+                </div>   
+
+            </div>
+
+            <div id="fifthWindow" class="window">
+
+                <div class="row row-grid align-items-center">
+                    <!-- <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center"> -->
+                        <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3 ">Οι στόχοι στην οθόνη</h1>
+                        <div class="guidelines">
+                            <div class="guidelines2">
+                                <h2><b style="color:yellow;">Μονόχρωμοι κύκλοι:</b> Τοποθέτησε οποιοδήποτε μέλος του σώματος σου έτσι ώστε να καλυφθούν όλοι οι κύκλοι</h2>
+                                <h2><b>Αριθμημένοι κύκλοι:</b> Οι κύκλοι πρέπει να καλυφθούν με συγκεκριμένη σειρά</h2>
+                                <h2><b style="color: red;">Κύκλοι</b> <b style="color: blue;">διαφορετικών</b> <b style="color: green;">χρωμάτων:</b> Χρησιμοποίησε το κατάλληλα χρωματισμένο μέλος του σωματός σου για να καλύψεις τον αντίστοιχα χρωματισμένο κύκλο</h2>
+                            </div>
+                        </div>
+                        
+                        <button class="button2" onclick='pageRedirect("#fourthWindow")'>
+                            Πίσω
+                        </button>
+                        <button class="button2" onclick='pageRedirect("#firstWindow")'>
+                            Μενού
+                        </button>
                 </div>
 
             </div>
+        </div>
             
-		</div>
     <!-- Core JS  -->
     <script src="assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
