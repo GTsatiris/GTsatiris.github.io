@@ -9,12 +9,14 @@
     <meta name="author" content="Webpixels">
     <title>Human pose game</title>
    
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet"> -->
-    <link rel="stylesheet" href="assets/css/quick-website.css" id="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Ubuntu+Mono:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/quick-website.css" id="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital@1&display=swap" rel="stylesheet"> -->
 
     <style>
         @keyframes hidePreloader {
@@ -55,9 +57,8 @@
         }
 
         body *{
-            font-family: 'Ubuntu Mono', monospace;
-            /* font-family: 'FuzzyBubbles', cursive; */
-            /* font-weight: bold; */
+            /* font-family: 'Ubuntu Mono', monospace; */
+            font-family: 'Hachi Maru Pop', cursive;
         }
 
         body:not(.loaded)>div.preloader {
@@ -74,7 +75,7 @@
 
 		.button {
 		  padding: 10px 23px;
-		  font-size: 40px;
+		  font-size: 30px;
 		  text-align: center;
 		  cursor: pointer;
 		  outline: none;
@@ -89,7 +90,7 @@
 
         .button2 {
 		  padding: 10px 23px;
-		  font-size: 40px;
+		  font-size: 30px;
 		  text-align: center;
 		  cursor: pointer;
 		  outline:none;
@@ -130,7 +131,7 @@
         .h1 {
             text-shadow:-2px 0 0 #faffff,0 2px 0 #faffff, 0.5px 0 0 #faffff,0 -0.5px 0 #faffff;
             /* text-shadow:-1px 0 0 rgb(255, 255, 255), 0 1px 0 rgb(255, 255, 255); */
-            font-size: 45px;
+            font-size: 40px;
             color:#359b39;
         }
 
@@ -138,11 +139,19 @@
             background-color: #e67b24b9;
             border-radius: 20px;
             padding: 15px 25px;
+            width: 500px;
+            height: 500px;
         }
 
         .guidelines2 {
             width: 450px;
-            height: 200px;
+            height: 250px;
+            overflow: auto;
+        }
+
+        .guidelines3 {
+            width: 450px;
+            height: 450px;
             overflow: auto;
         }
                                
@@ -272,9 +281,9 @@
                     <!-- <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center"> -->
                         <h1 class="animate__animated animate__rubberBand h1 lh-130 mb-3 ">Οι στόχοι στην οθόνη</h1>
                         <div class="guidelines">
-                            <div class="guidelines2">
+                            <div class="guidelines3">
                                 <h2><b style="color:yellow;">Μονόχρωμοι κύκλοι:</b> Τοποθέτησε οποιοδήποτε μέλος του σώματος σου έτσι ώστε να καλυφθούν όλοι οι κύκλοι</h2>
-                                <h2><b>Αριθμημένοι κύκλοι:</b> Οι κύκλοι πρέπει να καλυφθούν με συγκεκριμένη σειρά</h2>
+                                <h2><b style="color: blueviolet;">Αριθμημένοι κύκλοι:</b> Οι κύκλοι πρέπει να καλυφθούν με συγκεκριμένη σειρά</h2>
                                 <h2><b style="color: red;">Κύκλοι</b> <b style="color: blue;">διαφορετικών</b> <b style="color: green;">χρωμάτων:</b> Χρησιμοποίησε το κατάλληλα χρωματισμένο μέλος του σωματός σου για να καλύψεις τον αντίστοιχα χρωματισμένο κύκλο</h2>
                             </div>
                         </div>
@@ -283,7 +292,7 @@
                             Πίσω
                         </button>
                         <button class="button2" onclick='pageRedirect("#firstWindow")'>
-                            Μενού
+                            Αρχικό Μενού
                         </button>
                 </div>
 
