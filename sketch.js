@@ -5,13 +5,14 @@ let currentPose;
 let canvas;
 let fontFuzzyBubbles;
 let fontFuzzyBubblesBOLD;
+let loadingImg;
+let rotationAngle;
 
 let startTimer;
 let resetTime;
 
 let switchFlag = false;
 let keypointIndexes = [9, 10, 15, 16];
-let level = 0;
 let modelIsReady = false;
 let hasPose = false;
 
@@ -82,12 +83,16 @@ function switchCamera()
 function preload() {
   fontFuzzyBubbles = loadFont('assets/fonts/FuzzyBubbles-Regular.ttf');
   fontFuzzyBubblesBOLD = loadFont('assets/fonts/FuzzyBubbles-Bold.ttf');
+  loadingImg = loadImage('assets/img/1544764567.png');
+  levelsReady = false;
+  loadStandardLevels();
 }
 
 function setup() {
   resetTime = true;
+  rotationAngle = 0;
   let params = new URLSearchParams(location.search);
-  level = parseInt(params.get('lvl'));
+  currentLevel = parseInt(params.get('lvl'));
 
   canvas = createCanvas(windowWidth, windowHeight);
   centerCanvas();
@@ -148,63 +153,80 @@ function windowResized() {
 } 
 
 function draw() {
-  push();  
-  background(50);
-
-  translate(width,0);
-  scale(-1, 1);
-  image(video, 0, 0, width, height);
-
-  // We can call both functions to draw all keypoints and the skeletons
-  if(modelIsReady && hasPose)
+  if(modelIsReady && levelsReady)
   {
-    if(resetTime)
+    frameRate(30);
+
+    push();  
+    background(50);
+
+    translate(width,0);
+    scale(-1, 1);
+    image(video, 0, 0, width, height);
+
+    // We can call both functions to draw all keypoints and the skeletons
+    if(hasPose)
     {
-      resetTime = false;
-      startTimer = millis();
-    }
-          
-    updateKeypoints();
-
-    smoothAndTranslate();
-
-    drawLevelPoints();
-
-    drawKeypoints();
-
-    for (let i = 0; i < 3; i++) {
-      checkPointI(i);
-    }
-
-    if(levelChecks[0] && levelChecks[1] && levelChecks[2])
-    {
-      if(level < 2){
-        level++;
-        resetTime = true;
-      }
-      else
+      if(resetTime)
       {
-        level = 0;
+        resetTime = false;
+        startTimer = millis();
+      }
+            
+      updateKeypoints();
+
+      smoothAndTranslate();
+
+      drawLevelPoints();
+
+      drawKeypoints();
+
+      for (let i = 0; i < 3; i++) {
+        checkPointI(i);
+      }
+
+      if(levelChecks[0] && levelChecks[1] && levelChecks[2])
+      {
+        if(currentLevel < 2){
+          currentLevel++;
+          resetTime = true;
+        }
+        else
+        {
+          currentLevel = 0;
+        }
       }
     }
-  }
-  pop();
-  
-  textFont(fontFuzzyBubblesBOLD);
-  textSize(windowHeight/12);
-  strokeWeight(windowHeight/120);
-  stroke(51);
-  fill(255, 255, 255);
-  text('Level ' + (level + 1), 10, 80);
+    pop();
+    
+    textFont(fontFuzzyBubblesBOLD);
+    textSize(windowHeight/12);
+    strokeWeight(windowHeight/120);
+    stroke(51);
+    fill(255, 255, 255);
+    text('Level ' + (currentLevel + 1), 10, 80);
 
-  // milliSec = millisToMinAndSec(millis() - startTimer);
-  milliSec = msToTime(millis() - startTimer);
-  
-  if(startTimer != null)
-  {
-    text(milliSec, windowWidth*0.75, 80);
+    // milliSec = millisToMinAndSec(millis() - startTimer);
+    milliSec = msToTime(millis() - startTimer);
+    
+    if(startTimer != null)
+    {
+      text(milliSec, windowWidth*0.75, 80);
+    }
   }
-  
+  else
+  {
+    push();
+    frameRate(4);
+    background('#111');
+    translate(width / 2, height / 2);
+
+    rotate(rotationAngle * 30 * PI/180);
+    rotationAngle = rotationAngle + 1;
+    imageMode(CENTER);
+    image(loadingImg, 0, 0, 150, 150);
+    pop();
+  }
 }
 
 function updateKeypoints() {
@@ -396,7 +418,7 @@ function distance(a, b) {
 
 function drawLevelPoints() {
   for (let i = 0; i < 3; i++) {
-    var trans_p = translateToNewDim(levelPoints[level][i]);
+    var trans_p = translateToNewDim(levelPoints[currentLevel][i]);
     if(levelChecks[i]) {
       fill(0, 255, 0);
       noStroke();
@@ -411,7 +433,7 @@ function drawLevelPoints() {
 }
 
 function checkPointI(idx) {
-  var trans_p = translateToNewDim(levelPoints[level][idx]);
+  var trans_p = translateToNewDim(levelPoints[currentLevel][idx]);
   levelChecks[idx] = ((distance(trans_p, rWrist) < tolerance) || (distance(trans_p, lWrist) < tolerance) || (distance(trans_p, rAnkle) < tolerance) || (distance(trans_p, lAnkle) < tolerance));
 }
 
