@@ -353,149 +353,149 @@ function avgFiltering(x, idx) {
   return point;
 }
 
-function avgRWRIST(x) {
-  // the first time this runs we add the current x to the array n number of times
-  if (windowRWRIST.length < 1) {
-      console.log('this should only run once');
-      for (let i = 0; i < windowSize; i++) {
-          windowRWRIST.push(x);
-      }
-  // if the number of frames to average is increased, add more to the array
-  } else if (windowRWRIST.length < windowSize) {
-      console.log('adding more xs');
-      const moreXs = windowSize - windowRWRIST.length;
-      for (let i = 0; i < moreXs; i++) {
-          windowRWRIST.push(x);
-      }
-  // otherwise update only the most recent number
-  } else {
-      windowRWRIST.shift(); // removes first item from array
-      windowRWRIST.push(x); // adds new x to end of array
-  }
+// function avgRWRIST(x) {
+//   // the first time this runs we add the current x to the array n number of times
+//   if (windowRWRIST.length < 1) {
+//       console.log('this should only run once');
+//       for (let i = 0; i < windowSize; i++) {
+//           windowRWRIST.push(x);
+//       }
+//   // if the number of frames to average is increased, add more to the array
+//   } else if (windowRWRIST.length < windowSize) {
+//       console.log('adding more xs');
+//       const moreXs = windowSize - windowRWRIST.length;
+//       for (let i = 0; i < moreXs; i++) {
+//           windowRWRIST.push(x);
+//       }
+//   // otherwise update only the most recent number
+//   } else {
+//       windowRWRIST.shift(); // removes first item from array
+//       windowRWRIST.push(x); // adds new x to end of array
+//   }
 
-  let sum_X = 0;
-  let sum_Y = 0;
-  for (let i = 0; i < windowRWRIST.length; i++) {
-    sum_X += windowRWRIST[i].x;
-    sum_Y += windowRWRIST[i].y;
-  }
+//   let sum_X = 0;
+//   let sum_Y = 0;
+//   for (let i = 0; i < windowRWRIST.length; i++) {
+//     sum_X += windowRWRIST[i].x;
+//     sum_Y += windowRWRIST[i].y;
+//   }
 
-  let point = {};
+//   let point = {};
   
-  point.x = sum_X / windowRWRIST.length;
-  point.y = sum_Y / windowRWRIST.length;
+//   point.x = sum_X / windowRWRIST.length;
+//   point.y = sum_Y / windowRWRIST.length;
 
-  // return the average x value 
-  return point;
-}
+//   // return the average x value 
+//   return point;
+// }
 
-function avgRANKLE(x) {
-  // the first time this runs we add the current x to the array n number of times
-  if (windowRANKLE.length < 1) {
-      console.log('this should only run once');
-      for (let i = 0; i < windowSize; i++) {
-          windowRANKLE.push(x);
-      }
-  // if the number of frames to average is increased, add more to the array
-  } else if (windowRANKLE.length < windowSize) {
-      console.log('adding more xs');
-      const moreXs = windowSize - windowRANKLE.length;
-      for (let i = 0; i < moreXs; i++) {
-          windowRANKLE.push(x);
-      }
-  // otherwise update only the most recent number
-  } else {
-      windowRANKLE.shift(); // removes first item from array
-      windowRANKLE.push(x); // adds new x to end of array
-  }
+// function avgRANKLE(x) {
+//   // the first time this runs we add the current x to the array n number of times
+//   if (windowRANKLE.length < 1) {
+//       console.log('this should only run once');
+//       for (let i = 0; i < windowSize; i++) {
+//           windowRANKLE.push(x);
+//       }
+//   // if the number of frames to average is increased, add more to the array
+//   } else if (windowRANKLE.length < windowSize) {
+//       console.log('adding more xs');
+//       const moreXs = windowSize - windowRANKLE.length;
+//       for (let i = 0; i < moreXs; i++) {
+//           windowRANKLE.push(x);
+//       }
+//   // otherwise update only the most recent number
+//   } else {
+//       windowRANKLE.shift(); // removes first item from array
+//       windowRANKLE.push(x); // adds new x to end of array
+//   }
 
-  let sum_X = 0;
-  let sum_Y = 0;
-  for (let i = 0; i < windowRANKLE.length; i++) {
-    sum_X += windowRANKLE[i].x;
-    sum_Y += windowRANKLE[i].y;
-  }
+//   let sum_X = 0;
+//   let sum_Y = 0;
+//   for (let i = 0; i < windowRANKLE.length; i++) {
+//     sum_X += windowRANKLE[i].x;
+//     sum_Y += windowRANKLE[i].y;
+//   }
 
-  let point = {};
+//   let point = {};
   
-  point.x = sum_X / windowRANKLE.length;
-  point.y = sum_Y / windowRANKLE.length;
+//   point.x = sum_X / windowRANKLE.length;
+//   point.y = sum_Y / windowRANKLE.length;
 
-  // return the average x value 
-  return point;
-}
+//   // return the average x value 
+//   return point;
+// }
 
-function avgLWRIST(x) {
-  // the first time this runs we add the current x to the array n number of times
-  if (windowLWRIST.length < 1) {
-      console.log('this should only run once');
-      for (let i = 0; i < windowSize; i++) {
-          windowLWRIST.push(x);
-      }
-  // if the number of frames to average is increased, add more to the array
-  } else if (windowLWRIST.length < windowSize) {
-      console.log('adding more xs');
-      const moreXs = windowSize - windowLWRIST.length;
-      for (let i = 0; i < moreXs; i++) {
-          windowLWRIST.push(x);
-      }
-  // otherwise update only the most recent number
-  } else {
-      windowLWRIST.shift(); // removes first item from array
-      windowLWRIST.push(x); // adds new x to end of array
-  }
+// function avgLWRIST(x) {
+//   // the first time this runs we add the current x to the array n number of times
+//   if (windowLWRIST.length < 1) {
+//       console.log('this should only run once');
+//       for (let i = 0; i < windowSize; i++) {
+//           windowLWRIST.push(x);
+//       }
+//   // if the number of frames to average is increased, add more to the array
+//   } else if (windowLWRIST.length < windowSize) {
+//       console.log('adding more xs');
+//       const moreXs = windowSize - windowLWRIST.length;
+//       for (let i = 0; i < moreXs; i++) {
+//           windowLWRIST.push(x);
+//       }
+//   // otherwise update only the most recent number
+//   } else {
+//       windowLWRIST.shift(); // removes first item from array
+//       windowLWRIST.push(x); // adds new x to end of array
+//   }
 
-  let sum_X = 0;
-  let sum_Y = 0;
-  for (let i = 0; i < windowLWRIST.length; i++) {
-    sum_X += windowLWRIST[i].x;
-    sum_Y += windowLWRIST[i].y;
-  }
+//   let sum_X = 0;
+//   let sum_Y = 0;
+//   for (let i = 0; i < windowLWRIST.length; i++) {
+//     sum_X += windowLWRIST[i].x;
+//     sum_Y += windowLWRIST[i].y;
+//   }
 
-  let point = {};
+//   let point = {};
   
-  point.x = sum_X / windowLWRIST.length;
-  point.y = sum_Y / windowLWRIST.length;
+//   point.x = sum_X / windowLWRIST.length;
+//   point.y = sum_Y / windowLWRIST.length;
 
-  // return the average x value 
-  return point;
-}
+//   // return the average x value 
+//   return point;
+// }
 
-function avgLANKLE(x) {
-  // the first time this runs we add the current x to the array n number of times
-  if (windowLANKLE.length < 1) {
-      console.log('this should only run once');
-      for (let i = 0; i < windowSize; i++) {
-          windowLANKLE.push(x);
-      }
-  // if the number of frames to average is increased, add more to the array
-  } else if (windowLANKLE.length < windowSize) {
-      console.log('adding more xs');
-      const moreXs = windowSize - windowLANKLE.length;
-      for (let i = 0; i < moreXs; i++) {
-          windowLANKLE.push(x);
-      }
-  // otherwise update only the most recent number
-  } else {
-      windowLANKLE.shift(); // removes first item from array
-      windowLANKLE.push(x); // adds new x to end of array
-  }
+// function avgLANKLE(x) {
+//   // the first time this runs we add the current x to the array n number of times
+//   if (windowLANKLE.length < 1) {
+//       console.log('this should only run once');
+//       for (let i = 0; i < windowSize; i++) {
+//           windowLANKLE.push(x);
+//       }
+//   // if the number of frames to average is increased, add more to the array
+//   } else if (windowLANKLE.length < windowSize) {
+//       console.log('adding more xs');
+//       const moreXs = windowSize - windowLANKLE.length;
+//       for (let i = 0; i < moreXs; i++) {
+//           windowLANKLE.push(x);
+//       }
+//   // otherwise update only the most recent number
+//   } else {
+//       windowLANKLE.shift(); // removes first item from array
+//       windowLANKLE.push(x); // adds new x to end of array
+//   }
 
-  let sum_X = 0;
-  let sum_Y = 0;
-  for (let i = 0; i < windowLANKLE.length; i++) {
-    sum_X += windowLANKLE[i].x;
-    sum_Y += windowLANKLE[i].y;
-  }
+//   let sum_X = 0;
+//   let sum_Y = 0;
+//   for (let i = 0; i < windowLANKLE.length; i++) {
+//     sum_X += windowLANKLE[i].x;
+//     sum_Y += windowLANKLE[i].y;
+//   }
 
-  let point = {};
+//   let point = {};
   
-  point.x = sum_X / windowLANKLE.length;
-  point.y = sum_Y / windowLANKLE.length;
+//   point.x = sum_X / windowLANKLE.length;
+//   point.y = sum_Y / windowLANKLE.length;
 
-  // return the average x value 
-  return point;
-}
+//   // return the average x value 
+//   return point;
+// }
 
 function distance(a, b) {
   var dx = a.x - b.x;
@@ -535,10 +535,10 @@ function drawLevelPoints() {
   }
 }
 
-function checkPointI(idx) {
-  var trans_p = translateToNewDim(levelPoints[currentLevel][idx]);
-  levelChecks[idx] = ((distance(trans_p, rWrist) < tolerance) || (distance(trans_p, lWrist) < tolerance) || (distance(trans_p, rAnkle) < tolerance) || (distance(trans_p, lAnkle) < tolerance));
-}
+// function checkPointI(idx) {
+//   var trans_p = translateToNewDim(levelPoints[currentLevel][idx]);
+//   levelChecks[idx] = ((distance(trans_p, rWrist) < tolerance) || (distance(trans_p, lWrist) < tolerance) || (distance(trans_p, rAnkle) < tolerance) || (distance(trans_p, lAnkle) < tolerance));
+// }
 
 function checkPoints() {
   for (let i = 0; i < currLvlData.markerNum; i++) {
