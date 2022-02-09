@@ -2,6 +2,7 @@
     {
         "lvlID" : 1,
         "markerNum" : 1,
+        "jointNum" : 2,
         "markerSize1": 90,
         "markerSize2": 70,
         "jointSize": 50,
@@ -9,7 +10,7 @@
         "markerPos" : [
             {
                 "x":165, 
-                "y":37
+                "y":57
             }
         ],
         "markerChecks" : [
@@ -26,6 +27,7 @@
     {
         "lvlID" : 2,
         "markerNum" : 2,
+        "jointNum" : 2,
         "markerSize1": 90,
         "markerSize2": 70,
         "jointSize": 50,
@@ -54,6 +56,7 @@
     {
         "lvlID" : 3,
         "markerNum" : 2,
+        "jointNum" : 2,
         "markerSize1": 90,
         "markerSize2": 70,
         "jointSize": 50,
@@ -64,8 +67,8 @@
                 "y":37
             },
             {
-                "x":72, 
-                "y":37
+                "x":272, 
+                "y":137
             }
         ],
         "markerChecks" : [
@@ -82,7 +85,7 @@
                 "jointID": 10,
                 "jointColor": {
                     "R" : 255,
-                    "G" : 0,
+                    "G" : 255,
                     "B" : 0
                 }
             },
@@ -91,7 +94,7 @@
                 "jointColor": {
                     "R" : 0,
                     "G" : 255,
-                    "B" : 0
+                    "B" : 255
                 }
             }
         ]
@@ -99,6 +102,7 @@
     {
         "lvlID" : 4,
         "markerNum" : 2,
+        "jointNum" : 2,
         "markerSize1": 90,
         "markerSize2": 70,
         "jointSize": 50,
@@ -129,7 +133,7 @@
                 "jointID": 10,
                 "jointColor": {
                     "R" : 255,
-                    "G" : 0,
+                    "G" : 255,
                     "B" : 0
                 }
             },
@@ -138,7 +142,7 @@
                 "jointColor": {
                     "R" : 0,
                     "G" : 255,
-                    "B" : 0
+                    "B" : 255
                 }
             }
         ]

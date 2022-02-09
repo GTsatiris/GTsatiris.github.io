@@ -17,7 +17,7 @@ let modelIsReady = false;
 let hasPose = false;
 
 let tolerance = 50;
-let windowSize = 15;
+let windowSize = 20;
 let levelChecks = [false, false, false];
 
 let rWrist;
@@ -29,6 +29,9 @@ let windowRWRIST = [];
 let windowRANKLE = [];
 let windowLWRIST = [];
 let windowLANKLE = [];
+
+let windows = new Array(17);
+let currentJoints = new Array(17);
 
 //Level points defined in 320x240
 let levelPoints = [
@@ -86,6 +89,9 @@ function preload() {
   loadingImg = loadImage('assets/img/1544764567.png');
   levelsReady = false;
   loadStandardLevels();
+  for (var i = 0; i < windows.length; i++) {
+    windows[i] = [];
+  }
 }
 
 function setup() {
@@ -93,6 +99,7 @@ function setup() {
   rotationAngle = 0;
   let params = new URLSearchParams(location.search);
   currentLevel = parseInt(params.get('lvl'));
+  currLvlData = levelData[currentLevel];
 
   canvas = createCanvas(windowWidth, windowHeight);
   centerCanvas();
@@ -181,19 +188,29 @@ function draw() {
 
       drawKeypoints();
 
-      for (let i = 0; i < 3; i++) {
-        checkPointI(i);
-      }
+      checkPoints();
+      checkProgress();
 
-      if(levelChecks[0] && levelChecks[1] && levelChecks[2])
+      // for (let i = 0; i < curr; i++) {
+      //   checkPointI(i);
+      // }
+
+      //if(levelChecks[0] && levelChecks[1] && levelChecks[2])
+      if(canProgress)
       {
-        if(currentLevel < 2){
+        //if(currentLevel < 2){
+        if(currentLevel < 3){
           currentLevel++;
+          canProgress = false;
           resetTime = true;
+          currLvlData = levelData[currentLevel];
         }
         else
         {
           currentLevel = 0;
+          canProgress = false;
+          resetTime = true;
+          currLvlData = levelData[currentLevel];
         }
       }
     }
@@ -230,40 +247,110 @@ function draw() {
 }
 
 function updateKeypoints() {
-  rWrist = currentPose.pose.rightWrist;
-  lWrist = currentPose.pose.leftWrist;
-  rAnkle = currentPose.pose.rightAnkle;
-  lAnkle = currentPose.pose.leftAnkle;
+  for(var i = 0; i < currLvlData.jointNum; i++)
+  {
+    var jointIdx = currLvlData.trackedJoins[i];
+    currentJoints[jointIdx] = currentPose.pose.keypoints[jointIdx].position;
+  }
+  // rWrist = currentPose.pose.rightWrist;
+  // lWrist = currentPose.pose.leftWrist;
+  // rAnkle = currentPose.pose.rightAnkle;
+  // lAnkle = currentPose.pose.leftAnkle;
 }
 
 function smoothAndTranslate() {
-  rWrist = translateToNewDim(rWrist);
-  lWrist = translateToNewDim(lWrist);
-  rAnkle = translateToNewDim(rAnkle);
-  lAnkle = translateToNewDim(lAnkle);
+  for(var i = 0; i < currLvlData.jointNum; i++)
+  {
+    var jointIdx = currLvlData.trackedJoins[i];
+    currentJoints[jointIdx] = translateToNewDim(currentJoints[jointIdx]);
+    currentJoints[jointIdx] = avgFiltering(currentJoints[jointIdx], jointIdx);
+  }
+  // rWrist = translateToNewDim(rWrist);
+  // lWrist = translateToNewDim(lWrist);
+  // rAnkle = translateToNewDim(rAnkle);
+  // lAnkle = translateToNewDim(lAnkle);
 
-  rWrist = avgRWRIST(rWrist);
-  lWrist = avgLWRIST(lWrist);
-  rAnkle = avgRANKLE(rAnkle);
-  lAnkle = avgLANKLE(lAnkle);
+  // rWrist = avgRWRIST(rWrist);
+  // lWrist = avgLWRIST(lWrist);
+  // rAnkle = avgRANKLE(rAnkle);
+  // lAnkle = avgLANKLE(lAnkle);
 }
 
 function drawKeypoints() {
-  fill(255, 0, 0);
-  noStroke();
-  ellipse(rWrist.x, rWrist.y, 50, 50);
+  for(var i = 0; i < currLvlData.jointNum; i++)
+  {
+    var jointIdx = currLvlData.trackedJoins[i];
+    if(currLvlData.jointSpecific)
+    {
+      for(var j = 0; j < currLvlData.markerNum; j++)
+      {
+        if(jointIdx == currLvlData.jointMapping[j].jointID)
+        {
+          var color = currLvlData.jointMapping[j].jointColor;
+          fill(color.R, color.G, color.B);
+          break;
+        }
+      }
+    }
+    else
+    {
+      fill(255, 0, 0);
+    }
+    noStroke();
+    ellipse(currentJoints[jointIdx].x, currentJoints[jointIdx].y, 50, 50);
+  }
+  // fill(255, 0, 0);
+  // noStroke();
+  // ellipse(rWrist.x, rWrist.y, 50, 50);
 
-  fill(255, 0, 0);
-  noStroke();
-  ellipse(rAnkle.x, rAnkle.y, 50, 50);
+  // fill(255, 0, 0);
+  // noStroke();
+  // ellipse(rAnkle.x, rAnkle.y, 50, 50);
 
-  fill(255, 0, 0);
-  noStroke();
-  ellipse(lWrist.x, lWrist.y, 50, 50);
+  // fill(255, 0, 0);
+  // noStroke();
+  // ellipse(lWrist.x, lWrist.y, 50, 50);
 
-  fill(255, 0, 0);
-  noStroke();
-  ellipse(lAnkle.x, lAnkle.y, 50, 50);
+  // fill(255, 0, 0);
+  // noStroke();
+  // ellipse(lAnkle.x, lAnkle.y, 50, 50);
+}
+
+function avgFiltering(x, idx) {
+  // the first time this runs we add the current x to the array n number of times
+  if (windows[idx].length < 1) {
+    console.log('this should only run once');
+    for (let i = 0; i < windowSize; i++) {
+      windows[idx].push(x);
+    }
+  // if the number of frames to average is increased, add more to the array
+  }
+  else if (windows[idx].length < windowSize) {
+    console.log('adding more xs');
+    const moreXs = windowSize - windows[idx].length;
+    for (let i = 0; i < moreXs; i++) {
+      windows[idx].push(x);
+  }
+  // otherwise update only the most recent number
+  } else {
+    windows[idx].shift(); // removes first item from array
+    windows[idx].push(x); // adds new x to end of array
+  }
+
+  let sum_X = 0;
+  let sum_Y = 0;
+  for (let i = 0; i < windows[idx].length; i++) {
+    sum_X += windows[idx][i].x;
+    sum_Y += windows[idx][i].y;
+  }
+
+  let point = {};
+  
+  point.x = sum_X / windows[idx].length;
+  point.y = sum_Y / windows[idx].length;
+
+  // return the average x value 
+  return point;
 }
 
 function avgRWRIST(x) {
@@ -417,15 +504,31 @@ function distance(a, b) {
 }
 
 function drawLevelPoints() {
-  for (let i = 0; i < 3; i++) {
-    var trans_p = translateToNewDim(levelPoints[currentLevel][i]);
-    if(levelChecks[i]) {
-      fill(0, 255, 0);
+  for (let i = 0; i < currLvlData.markerNum; i++) {
+    var trans_p = translateToNewDim(currLvlData.markerPos[i]);
+    if(currLvlData.markerChecks[i]) {
+      if(currLvlData.jointSpecific)
+      {
+        var color = currLvlData.jointMapping[i].jointColor;
+        fill(color.R, color.G, color.B);
+      }
+      else
+      {
+        fill(0, 255, 0);
+      }
       noStroke();
       ellipse(trans_p.x, trans_p.y, 70, 70);
     }
     else {
-      fill(255, 255, 0);
+      if(currLvlData.jointSpecific)
+      {
+        var color = currLvlData.jointMapping[i].jointColor;
+        fill(color.R, color.G, color.B);
+      }
+      else
+      {
+        fill(255, 255, 0);
+      }
       noStroke();
       ellipse(trans_p.x, trans_p.y, 90, 90);
     }
@@ -435,6 +538,44 @@ function drawLevelPoints() {
 function checkPointI(idx) {
   var trans_p = translateToNewDim(levelPoints[currentLevel][idx]);
   levelChecks[idx] = ((distance(trans_p, rWrist) < tolerance) || (distance(trans_p, lWrist) < tolerance) || (distance(trans_p, rAnkle) < tolerance) || (distance(trans_p, lAnkle) < tolerance));
+}
+
+function checkPoints() {
+  for (let i = 0; i < currLvlData.markerNum; i++) {
+    var trans_p = translateToNewDim(currLvlData.markerPos[i]);
+    
+    currLvlData.markerChecks[i] = false;
+    let correctOrder = false;
+
+    // if(currLvlData.orderSpecific)
+    // {
+    //   //TODO
+    //   correctOrder = true;
+    // }
+    // else
+    // {
+    //   correctOrder = true;
+    // }
+    if(currLvlData.jointSpecific)
+    {
+      var jointIdx = currLvlData.jointMapping[i].jointID;
+      if(distance(trans_p, currentJoints[jointIdx]) < tolerance)
+      {
+        currLvlData.markerChecks[i] = true;
+      }
+      else
+      {
+        currLvlData.markerChecks[i] = false;
+      }
+    }
+    else
+    {
+      for (let j = 0; j < currLvlData.jointNum; j++) {
+        var jointIdx = currLvlData.trackedJoins[j];
+        currLvlData.markerChecks[i] = currLvlData.markerChecks[i] || (distance(trans_p, currentJoints[jointIdx]) < tolerance);
+      }
+    }
+  }
 }
 
 function millisToMinAndSec(millis) {

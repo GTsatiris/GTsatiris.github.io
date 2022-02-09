@@ -1,26 +1,10 @@
 let canProgress = false;
-let allMarkersTouched;
-let correctOrder;
-let correctJoints;
 let countDown = 3;
 let startedCounter = false;
 let start;
 
 function checkProgress()
 {
-    currLvlData = levelData[currentLevel];
-
-    if(currLvlData.orderSpecific)
-    {
-        // TODO
-        correctOrder = true;
-    }
-    if(currLvlData.jointSpecific)
-    {
-        //TODO
-        correctJoints = true;
-    }
-
     let allMarkersTouched = true;
     for (let i = 0; i < currLvlData.markerNum; i++)
     {
@@ -31,7 +15,7 @@ function checkProgress()
         }
     }
 
-    if(allMarkersTouched && correctJoints && correctOrder)
+    if(allMarkersTouched)
     {
         if(startedCounter)
         {
@@ -51,5 +35,6 @@ function checkProgress()
     else
     {
         startedCounter = false;
+        canProgress = false;
     }
 }

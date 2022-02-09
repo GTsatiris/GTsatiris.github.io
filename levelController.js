@@ -1,4 +1,5 @@
 let currentLevel = 0;
+let currLvlData;
 let levelData;
 let levelsReady = false;
 
