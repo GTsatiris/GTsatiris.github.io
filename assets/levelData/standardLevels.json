@@ -9,8 +9,8 @@
         "tolerance": 50,
         "markerPos" : [
             {
-                "x":165, 
-                "y":57
+                "x":320, 
+                "y":240
             }
         ],
         "markerChecks" : [
@@ -34,12 +34,12 @@
         "tolerance": 50,
         "markerPos" : [
             {
-                "x":165, 
-                "y":37
+                "x":213, 
+                "y":160
             },
             {
-                "x":72, 
-                "y":37
+                "x":426, 
+                "y":160
             }
         ],
         "markerChecks" : [
@@ -63,12 +63,12 @@
         "tolerance": 50,
         "markerPos" : [
             {
-                "x":165, 
-                "y":37
+                "x":213, 
+                "y":240
             },
             {
-                "x":272, 
-                "y":137
+                "x":426, 
+                "y":240
             }
         ],
         "markerChecks" : [
@@ -109,12 +109,12 @@
         "tolerance": 50,
         "markerPos" : [
             {
-                "x":165, 
-                "y":37
+                "x":320, 
+                "y":160
             },
             {
-                "x":72, 
-                "y":37
+                "x":320, 
+                "y":320
             }
         ],
         "markerChecks" : [
@@ -130,19 +130,19 @@
         "jointSpecific" : true,
         "jointMapping" : [
             {
-                "jointID": 10,
-                "jointColor": {
-                    "R" : 255,
-                    "G" : 255,
-                    "B" : 0
-                }
-            },
-            {
                 "jointID": 9,
                 "jointColor": {
                     "R" : 0,
                     "G" : 255,
                     "B" : 255
+                }
+            },
+            {
+                "jointID": 10,
+                "jointColor": {
+                    "R" : 255,
+                    "G" : 255,
+                    "B" : 0
                 }
             }
         ]
