@@ -184,6 +184,9 @@ function windowResized() {
 } 
 
 function draw() {
+  console.log(modelIsReady);
+  console.log(levelsReady);
+  console.log(videoIsReady);
   if(modelIsReady && levelsReady && videoIsReady)
   {
     frameRate(30);
