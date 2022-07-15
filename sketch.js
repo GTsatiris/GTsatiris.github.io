@@ -38,11 +38,11 @@ let windowSize = 10;
 // let windowLWRIST = [];
 // let windowLANKLE = [];
 
-window.state = {
-  model: false,
-  levels: false,
-  video: false
-}
+// window.state = {
+//   model: false,
+//   levels: false,
+//   video: false
+// }
 
 let windows = new Array(17);
 let currentJoints = new Array(17);
@@ -190,9 +190,9 @@ function windowResized() {
 } 
 
 function draw() {
-  window.state.model = modelIsReady;
-  window.state.levels = levelsReady;
-  window.state.video = videoIsReady;
+  // window.state.model = modelIsReady;
+  // window.state.levels = levelsReady;
+  // window.state.video = videoIsReady;
   if(modelIsReady && levelsReady && videoIsReady)
   {
     frameRate(30);
@@ -285,12 +285,12 @@ function draw() {
   }
   else
   {
-    console.log("Model:" + modelIsReady);
-    console.log("Levels:" + levelsReady);
-    console.log("Video:" + videoIsReady);
-    // Print.postMessage("Model:" + modelIsReady);
-    // Print.postMessage("Levels:" + levelsReady);
-    // Print.postMessage("Video:" + videoIsReady);
+    // console.log("Model:" + modelIsReady);
+    // console.log("Levels:" + levelsReady);
+    // console.log("Video:" + videoIsReady);
+    Print.postMessage("Model: " + modelIsReady);
+    Print.postMessage("Levels: " + levelsReady);
+    Print.postMessage("Video: " + videoIsReady);
     push();
     frameRate(4);
     background('#111');
