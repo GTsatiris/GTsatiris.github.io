@@ -285,12 +285,15 @@ function draw() {
   }
   else
   {
-    // console.log("Model:" + modelIsReady);
-    // console.log("Levels:" + levelsReady);
-    // console.log("Video:" + videoIsReady);
-    Print.postMessage("Model: " + modelIsReady);
-    Print.postMessage("Levels: " + levelsReady);
-    Print.postMessage("Video: " + videoIsReady);
+    try {
+      Print.postMessage("Model: " + modelIsReady);
+      Print.postMessage("Levels: " + levelsReady);
+      Print.postMessage("Video: " + videoIsReady);
+    } catch (error) {
+      console.log("Model:" + modelIsReady);
+      console.log("Levels:" + levelsReady);
+      console.log("Video:" + videoIsReady);
+    }
     push();
     frameRate(4);
     background('#111');
